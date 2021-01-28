@@ -1,0 +1,42 @@
+---
+title: "hw01_exploring bfi"
+author: "Naidan Tu"
+date: "1/21/2021"
+output: 
+  github_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Assign bfi data as a new object data 
+
+```{r}
+data <- psych::bfi
+```
+
+### The first part of data
+
+```{r}
+head(data)
+```
+
+### Column names of data
+
+```{r}
+colnames(data)
+```
+
+### Mean of the first column excluding the missing values
+
+```{r}
+mean(data[,1], na.rm = T)
+```
+
+### Number of rows
+
+```{r}
+nrow(data)
+```
