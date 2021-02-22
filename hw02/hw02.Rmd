@@ -3,54 +3,65 @@ title: "hw02_dplyr"
 author: "Naidan Tu"
 date: "2/9/2021"
 output: 
-github_document: default
-html_document: default
+  github_document: default
+  html_document: default
 ---
+
+<!-- BMW: In YAML, options for a parameter need to be indented under that paramter. So, see how the two output formats are indented under output: now. -->
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-```
-
-#1.1
-
-```{r}
 library(dplyr)
 library(gapminder)
-library(ggplot2)
-data1.1 <- gapminder %>% 
-  filter(country == "Afghanistan"|country == "Albania"|country == "Angola", year < 1980 & year > 1969)  
+library(ggplot2) # BMW: library() calls should go into the setup chunk
 ```
 
-#1.2
+# 1.1
+
+<!-- BMW: You need a space after the # for headings -->
+
+```{r}
+data1.1 <- gapminder %>% 
+  filter(country == "Afghanistan" | country == "Albania" | country == "Angola", 
+         year < 1980 & year > 1969
+  )  # BMW: %in% would be a more efficient option than multiple | conditions
+```
+
+# 1.2
 
 ```{r}
 data1.1 %>% 
   select(country, gdpPercap)
 ```
 
-#1.3
+# 1.3
 
 ```{r}
 lifeExpchange1 <- gapminder %>% 
+  group_by(country) %>% 
   arrange(year) %>% 
   mutate(lifeExpchange = lifeExp - lag(lifeExp))
 lifeExpchange1 %>% 
-  filter(lifeExpchange<0)
+  filter(lifeExpchange < 0)
 ```
 
-#1.4
+<!-- BMW: You need to group by country so that you don't compute the difference in life expectancy across multiple countries. -->
+
+# 1.4
 
 ```{r}
 gapminder %>%
   group_by(country) %>%
-  summarize(maxGdpPercap = max(gdpPercap))
+  filter(maxGdpPercap == max(gdpPercap))
 ```
 
-#1.5
+<!-- BMW: It asked you to filter the whole data frame (e.g., to see which year, etc.), not just compute the max GDP -->
+
+# 1.5
 
 ```{r}
 gapminder %>%
-  filter(country=="Canada") %>% 
+  filter(country == "Canada") %>% 
   ggplot() +
   aes(x = gdpPercap,
       y = lifeExp) +
@@ -58,13 +69,19 @@ gapminder %>%
   scale_x_log10()
 ```
 
-#2.1
+# 2.1
 
 ```{r}
-palmerpenguins::penguins
+# palmerpenguins::penguins # don't print out whole datasets like this.
 palmerpenguins::penguins %>% 
-  summarize(mu1=mean(bill_length_mm, na.rm = T), sigma1=sd(bill_length_mm, na.rm = T), median1=median(bill_length_mm, na.rm = T),
-            mu2=mean(flipper_length_mm, na.rm = T), sigma2=sd(flipper_length_mm, na.rm = T), median=median(flipper_length_mm, na.rm = T))
+  summarize(
+    mu1 = mean(bill_length_mm, na.rm = T), 
+    sigma1 = sd(bill_length_mm, na.rm = T), 
+    median1 = median(bill_length_mm, na.rm = T),
+    mu2 = mean(flipper_length_mm, na.rm = T), 
+    sigma2 = sd(flipper_length_mm, na.rm = T), 
+    median = median(flipper_length_mm, na.rm = T)
+  ) # BMW: Better to use clearer variable names than just '1', '2'
 
 ggplot(palmerpenguins::penguins) +
   aes(x = bill_length_mm,
@@ -72,15 +89,22 @@ ggplot(palmerpenguins::penguins) +
   geom_point()
 ```
 
-#2.2
+# 2.2
 
 ```{r}
 summary_table <- palmerpenguins::penguins %>%
   group_by(sex) %>%
-  summarise(mu = mean(bill_length_mm, na.rm = T), sigma = sd(bill_length_mm, na.rm = T), sample = n())
+  summarise(
+    mu = mean(bill_length_mm, na.rm = T), 
+    sigma = sd(bill_length_mm, na.rm = T), 
+    sample = n()
+  )
+summary_table
+
 ggplot(palmerpenguins::penguins) +
   aes(sex) +
   geom_bar()
+
 ggplot(palmerpenguins::penguins) +
   aes(x = sex,
       y = bill_length_mm,
@@ -89,14 +113,13 @@ ggplot(palmerpenguins::penguins) +
   geom_jitter(height = 0,
               width = .4) +
   geom_boxplot(color = "black",
-               alpha = .5)
+               alpha = .2)
 ```
 
 
-#bonus
+# bonus
 
 ```{r}
-library(gapminder)
 gapminder %>% 
   filter(country == "Rwanda" | country == "Afghanistan")
 ```
