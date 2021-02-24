@@ -33,18 +33,20 @@ For your assignment, do the following.
 ```{r}
 as_tibble(green_data)
 green_data %>% 
-  summarize(across(c(green1:student), list(mean= ~ mean(.x, na.rm=T), sd= ~sd(.x, na.rm = T), 
-                                      min= ~min(.x, na.rm = T), max= ~max(.x, na.rm = T))))
+  summary()
 ```
 
   There are some -99 values that need to be recoded into NA.
 
 ```{r}
 green_data[green_data == -99] <- NA
+# or
+# green_data <- 
+#   mutate(across(everything(),
+#                 ~ na_if(.x, -99)))
 
 green_data %>% 
-  summarize(across(c(green1:student), list(mean= ~ mean(.x, na.rm=T), sd= ~sd(.x, na.rm = T), 
-                                      min= ~min(.x, na.rm = T), max= ~max(.x, na.rm = T))))
+  summary()
 ```
  
  
@@ -77,10 +79,10 @@ green_data[green_data == 0] <- NA
      Name the recaled variables `*_pomp`.
 
 ```{r}
-green_pomp=((green_data$green-min(green_data$green, na.rm = T))/(max(green_data$green, na.rm = T)-min(green_data$green, na.rm = T)))*100
-comp_pomp=((green_data$comp-min(green_data$comp, na.rm = T))/(max(green_data$comp, na.rm = T)-min(green_data$comp, na.rm = T)))*100
-intel_pomp=((green_data$intel-min(green_data$intel, na.rm = T))/(max(green_data$intel, na.rm = T)-min(green_data$intel, na.rm = T)))*100
-open_pomp=((green_data$open-min(green_data$open, na.rm = T))/(max(green_data$open, na.rm = T)-min(green_data$open, na.rm = T)))*100
+green_pomp=((green_data$green-5)/(25-5))*100
+comp_pomp=((green_data$comp-10)/(50-10))*100
+intel_pomp=((green_data$intel-10)/(50-10))*100
+open_pomp=((green_data$open-10)/(50-10))*100
 green_data1 <- cbind(green_data, green_pomp, comp_pomp, intel_pomp, open_pomp)
 ```     
 
