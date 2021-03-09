@@ -1,0 +1,33 @@
+Package: bmggum
+Title: Bayesian Multidimensional Generalized Graded Unfolding Model
+Version: 0.1.0
+Date: 2021-3-5
+Authors@R: 
+    c(person(given = "Naidan",
+           family = "Tu",
+           role = c("aut", "cre"),
+           email = "naidantu@usf.edu"),
+      person(given = "Bo",
+           family = "Zhang",
+           role = c("aut"),
+           email = "bozhang3065@gmail.com"))
+Description: Full Bayesian estimation of Multidimensional Generalized Graded Unfolding Model (MGGUM) using rstan. 
+    Functions are provided for estimation, result extraction, model fit statistics, and plottings.
+License: GPL (>= 3)
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1.9000
+Imports:
+        edstan, 
+        ggplot2,
+        GGUM,
+        loo, 
+        rstan,
+        stats
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+URL: https://github.com/Naidantu/bmggum
+BugReports: https://github.com/Naidantu/bmggum/issues
