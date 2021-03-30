@@ -1,0 +1,60 @@
+---
+title: "Beautifying RMarkdown"
+author: "Naidan Tu"
+date: "`r format(Sys.Date(), '%b %d %Y')`"
+output: 
+  html_document:
+    theme: lumen
+    highlight: haddock
+    code_folding: hide
+    toc: true
+    toc_float: true
+    toc_dept: 3
+---
+  
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
+library(ggplot2)
+library(dplyr)
+```
+
+## The Surprising Truth about `mpg`
+
+### `mpg`: The Figure
+Add a code chunk that uses the `ggplot2::mpg` dataset to plot `displ` against `hwy` (highway mpg), with points colored by `manufacturer` and shaped by `year`.
+```{r}
+mpg$year <- as.factor(mpg$year)
+ggplot(mpg) +
+  aes(x = displ,
+      y = hwy,
+      fill = manufacturer,
+      color = manufacturer,
+      shape = year) +
+  geom_point()
+```
+
+### `mpg`: The Table
+
+Add a second code chunk that gives a summary table with the **mean** and **sd** for `displ` and `hwy` for each year.
+
+Around each piece of output, add a brief description.
+
+We will examine how various options change the rendered HTML output.
+```{r}
+mpg %>% 
+  group_by(year) %>%
+  summarize(mu_displ=mean(displ, na.rm = T), sd_displ=sd(displ, na.rm = T), 
+            mu_hwy=mean(hwy, na.rm = T), sd_hwy=sd(hwy, na.rm = T))
+```
+
+There is slightly increase in average displ in 2008 comparing to 1999, and there is no huge difference in hwy between 1999 and 2008.
+
+## Resources
+
+Here are two general RMarkdown how-to books that are chock-full of great info:
+
+  - https://bookdown.org/yihui/rmarkdown/
+  - https://bookdown.org/yihui/rmarkdown-cookbook/
+  
+## Code Highlighting
+
