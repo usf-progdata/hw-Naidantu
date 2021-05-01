@@ -84,6 +84,12 @@ Result object that stores information including the (1) stanfit object, (2) esti
 This function implements full Bayesian estimation of Multidimensional Generalized Graded Unfolding Model (MGGUM) using rstan
 }
 \examples{
-\dontrun{
-mod <- bmggum(GGUM.Data, delindex, trait, ind, covariate, option)}
+Data <- c(1,4,2,3)
+Data <- matrix(Data,nrow = 2)
+deli <- c(1,-1,2,1)
+deli <- matrix(deli,nrow = 2)
+ind <- c(1,2)
+ind <- t(ind)
+cova <- c(0.70, -1.25)
+mod <- bmggum(GGUM.Data=Data,delindex=deli,trait=2,ind=ind,option=4,covariate=cova,iter=5,chains=1)
 }
