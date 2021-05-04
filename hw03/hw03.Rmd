@@ -31,7 +31,7 @@ For your assignment, do the following.
      Is anything unusual?
      
 ```{r}
-as_tibble(green_data)
+as_tibble(green_data) # BMW: You didn't assign this result?
 green_data %>% 
   summary()
 ```
@@ -67,7 +67,7 @@ green_data %>%
 
 green_data <- green_data %>% 
   rowwise() %>% 
-  mutate(green=sum(c_across(green1:green5), na.rm = T),
+  mutate(green=sum(c_across(green1:green5), na.rm = T), # BMW: Use mean() instead of sum() when computing total scores--it's more robust to missing data.
          comp=sum(c_across(comp1:comp10), na.rm = T),
          intel=sum(c_across(intel1:intel10), na.rm = T),
          open=sum(c_across(open1:open10), na.rm = T)) 
@@ -152,7 +152,7 @@ ggplot(na.omit(green_data1)) +
       x = green_pomp,
       fill = student,
       color = student) +
-  geom_jitter(height = .15) +
+  geom_jitter(height = .15) + # BMW: Be sure to include width = 0 to not add any noise on the x axis
   geom_boxplot(color = "black",
                alpha = .5,
                width = .1,
@@ -172,11 +172,19 @@ ggplot(na.omit(green_data1)) +
   For openness to experiences scores, student group has higher mean scores and more variations within group.
 
 ```{r}
-green_data1 %>% 
-  filter(!is.na(student)) %>% 
-    group_by(student) %>%
-    summarize(across(c(green_pomp:open_pomp), list(mean= ~ mean(.x, na.rm=T), sd= ~sd(.x, na.rm = T), 
-                                      median= ~median(.x, na.rm = T), min= ~min(.x, na.rm = T), max= ~max(.x, na.rm = T))))
+green_data1 %>%
+  filter(!is.na(student)) %>%
+  group_by(student) %>%
+  summarize(across(
+    c(green_pomp:open_pomp),
+    list(
+      mean = ~ mean(.x, na.rm = T),
+      sd = ~ sd(.x, na.rm = T),
+      median = ~ median(.x, na.rm = T),
+      min = ~ min(.x, na.rm = T),
+      max = ~ max(.x, na.rm = T)
+    )
+  ))
 ```  
   
 In your assignment, prepare an RMarkdown file that includes both the coding and (for 4-7) narrative descriptions of your results.
